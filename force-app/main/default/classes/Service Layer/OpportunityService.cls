@@ -54,7 +54,11 @@ public with sharing class OpportunityService {
       oppMap.values(),
       new List<SObjectField>{ Opportunity.OwnerId }
     );
+    fflib_SObjectDomain.getTriggerEvent(Opportunities.class)
+      .disableAfterUpdate();
     uow.commitWork();
+    fflib_SObjectDomain.getTriggerEvent(Opportunities.class)
+      .enableAfterUpdate();
   }
 
   /**
@@ -97,6 +101,7 @@ public with sharing class OpportunityService {
    * @param Account acc - Account record
    * @return Boolean
    **/
+  @TestVisible
   private static Boolean initialsAndEmailMatch(
     Referral__c referral,
     Account acc
@@ -115,6 +120,7 @@ public with sharing class OpportunityService {
    * @param Account acc - Account record
    * @return Boolean
    **/
+  @TestVisible
   private static Boolean initialsAndPhoneMatch(
     Referral__c referral,
     Account acc
@@ -134,6 +140,7 @@ public with sharing class OpportunityService {
    * @param Account acc - Account record
    * @return Boolean
    **/
+  @TestVisible
   private static Boolean emailPhoneAndNameMatch(
     Referral__c referral,
     Account acc
