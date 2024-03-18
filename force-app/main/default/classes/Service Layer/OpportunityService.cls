@@ -36,7 +36,6 @@ public with sharing class OpportunityService {
     );
     List<Referral__c> referrals = referralSelector.selectForOpportunityUpdate();
     Id automatedProcessUserId = userSelector.getAutomatedProcessUser().Id;
-    System.debug(automatedProcessUserId);
     for (Opportunity opp : oppMap.values()) {
       User owner = owners.get(opp.OwnerId);
 
@@ -49,9 +48,7 @@ public with sharing class OpportunityService {
       }
 
       opp.OwnerId = automatedProcessUserId;
-      System.debug('opp.OwnerId: ' + opp.OwnerId);
       assignOwner(opp, accounts, referrals);
-      System.debug('opp.OwnerId: ' + opp.OwnerId);
     }
     uow.registerDirty(
       oppMap.values(),
@@ -81,8 +78,6 @@ public with sharing class OpportunityService {
       opp.OwnerId = acc.Opportunities[0].OwnerId;
       return;
     }
-    System.debug('opp.OwnerId: ' + opp.OwnerId);
-    System.debug('referrals: ' + referrals);
     for (Referral__c referral : referrals) {
       if (
         initialsAndEmailMatch(referral, acc) ||
@@ -93,7 +88,6 @@ public with sharing class OpportunityService {
         break;
       }
     }
-    System.debug('opp.OwnerId: ' + opp.OwnerId);
   }
 
   /**
